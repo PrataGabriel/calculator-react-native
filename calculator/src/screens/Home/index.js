@@ -1,19 +1,24 @@
-import { useCallback, useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import { useCallback, useEffect, useState, useRef } from 'react'
+import { View, TextInput, Keyboard, AppState, Pressable } from 'react-native'
 import * as SplashScreen from "expo-splash-screen"
 import { useFonts } from 'expo-font'
 import { MaterialCommunityIcons, FontAwesome5, Feather, MaterialIcons } from '@expo/vector-icons'
 import styles from './styles'
 
-import Keyboard from './components/keyboard'
+import KeyboardComponent from './components/keyboard'
 
 export default function Home()
 {
-    const [appIsReady, setAppIsReady] = useState(false),
-          [fontsLoaded] = useFonts(
+    const appState                            = useRef(AppState.currentState),
+          textInputRef                        = useRef(),
+          [appIsReady, setAppIsReady]         = useState(false),
+          [value, setValue]                   = useState(null),
+          [actRemoveValue, setActRemoveValue] = useState(),
+          [changePosition, setChangePosition] = useState(),
+          [fontsLoaded]                       = useFonts(
     {
         'Heebo-Light': require("../../../assets/fonts/Heebo/static/Heebo-Light.ttf"),
-        'Heebo-Bold': require("../../../assets/fonts/Heebo/static/Heebo-Bold.ttf")
+        'Heebo-Regular': require("../../../assets/fonts/Heebo/static/Heebo-Regular.ttf")
     })
 
     useEffect(() =>
@@ -26,6 +31,26 @@ export default function Home()
         }
 
         prepare()
+
+        const subscription = AppState.addEventListener("change", nextAppState =>
+        {
+            if(appState.current.match(/inactive|background/) && nextAppState === "active")
+            {
+                Keyboard.dismiss()
+                
+                setTimeout(() =>
+                {
+                    textInputRef.current.showSoftInputOnFocus = false
+                    textInputRef.current.focus()
+                }, 1000)
+            }
+    
+            appState.current = nextAppState
+        })
+    
+        return () => {
+          subscription.remove()
+        }
     }, [])
 
     const onLayoutRootView = useCallback(async () =>
@@ -42,7 +67,14 @@ export default function Home()
         <View style={styles.aAllApp} onLayout={onLayoutRootView}>
             <View style={styles.aViewInformation}>
                 <View style={styles.aInput}>
-
+                    <TextInput
+                        style={styles.textInput}
+                        value={value}
+                        autoFocus={true}
+                        showSoftInputOnFocus={false}
+                        ref={textInputRef}
+                        onSelectionChange={(e) => setChangePosition(e.nativeEvent.selection)}
+                    />
                 </View>
                 <View style={styles.aMenuTools}>
                     <View style={styles.aItemsLeft}>
@@ -51,11 +83,13 @@ export default function Home()
                         <View><MaterialIcons name="emoji-symbols" style={styles.iconLeft} /></View>
                     </View>
                     <View style={styles.aItemsRight}>
-                        <View><Feather name="delete" style={styles.iconRight} /></View>
+                        <Pressable onPress={setActRemoveValue} style={value ? styles.iconPressable : []}>
+                            <View><Feather name="delete" style={[styles.iconRight, {color: value ? "#9dd260" : "#394a26"}]} /></View>
+                        </Pressable>
                     </View>
                 </View>
             </View>
-            <Keyboard />
+            <KeyboardComponent stateValue={{value, setValue}} changePosition={changePosition} actRemoveValue={actRemoveValue} />
         </View>
     )
 }

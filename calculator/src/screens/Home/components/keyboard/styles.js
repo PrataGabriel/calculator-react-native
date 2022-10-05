@@ -1,7 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native'
-
-const screenWidth = Dimensions.get('screen').width,
-      widthButton = (screenWidth - (15 * 2) - 60) / 4
+import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create(
 {
@@ -23,37 +20,6 @@ const styles = StyleSheet.create(
     {
         flexDirection: "row",
         justifyContent: "space-between"
-    },
-    button:
-    {
-        backgroundColor: "#1f1f1f",
-        width: widthButton,
-        height: widthButton,
-        borderRadius: 50,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    buttonText:
-    {
-        fontSize: 26,
-        color: "#fff",
-        fontFamily: "Heebo-Light"
-    },
-    buttonNumber:
-    {
-        fontFamily: "Heebo-Bold"
-    },
-    buttonC:
-    {
-        color: "#ff736d"
-    },
-    buttonsExpecialGreen:
-    {
-        color: "#9dd260"
-    },
-    buttonFinishEqual:
-    {
-        backgroundColor: "#427e04"
     }
 })
 

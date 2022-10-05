@@ -20,10 +20,8 @@ const styles = StyleSheet.create(
     aMenuTools:
     {
         width: "100%",
-        height: 40,
-        // backgroundColor: "red",
         marginVertical: 20,
-        paddingHorizontal: 25,
+        paddingHorizontal: 15,
         flexDirection: "row"
     },
     aItemsLeft:
@@ -31,7 +29,6 @@ const styles = StyleSheet.create(
         flex: 1,
         alignItems: "center",
         flexDirection: "row",
-        // backgroundColor: "green",
         justifyContent: "space-between"
     },
     aItemsRight:
@@ -43,12 +40,27 @@ const styles = StyleSheet.create(
     iconLeft:
     {
         fontSize: 24,
-        color: "#999"
+        color: "#999",
+        padding: 12
     },
     iconRight:
     {
         fontSize: 22,
-        color: "#394a26"
+        color: "#394a26",
+        padding: 12
+    },
+    iconPressable: ({pressed}) =>
+    [{
+        backgroundColor: pressed ? '#1f1f1f' : 'transparent',
+        borderRadius: 50
+    }],
+    textInput:
+    {
+        fontSize: 32,
+        textAlign: "right",
+        color: "#fff",
+        paddingVertical: 60,
+        paddingHorizontal: 18
     }
 })
 

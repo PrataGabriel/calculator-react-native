@@ -1,96 +1,102 @@
-import { Text, View } from 'react-native'
+import { useEffect } from 'react'
+import { View } from 'react-native'
 import styles from './styles'
 
-function ButtonText(props)
+import
 {
-    let styleView = [styles.button],
-        styleText = [styles.buttonText]
+    ButtonText,
+    ButtonExpecialRed,
+    ButtonExpecialGreen,
+    ButtonNumber,
+    ButtonFinish
+} from '../buttons'
 
-    if(props.style)
+export default function KeyboardComponent({ stateValue: {value, setValue}, changePosition, actRemoveValue })
+{
+    const addValue = (val) =>
     {
-        if(!Array.isArray(props.style))
-            styleText.push(props.style)
-        else
-            styleText.push(...props.style)
+        let dataValue = []
+
+        if(value)
+            dataValue.push(...value)
+
+        val = val.toString()
+
+        if(!changePosition)
+            changePosition = {start: 0, end: 0}
+
+        changePosition.end = changePosition.end - changePosition.start
+
+        dataValue.splice(changePosition.start, changePosition.end, val)
+
+        setValue(dataValue.join(''))
     }
 
-    if(props.styleView)
+    const removeValue = () =>
     {
-        if(!Array.isArray(props.styleView))
-            styleView.push(props.styleView)
-        else
-            styleView.push(...props.styleView)
-    }
+        if(value)
+        {
+            const dataValue = [...value]
     
-    return (
-        <View style={styleView}>
-            <Text style={styleText}>{ props.content }</Text>
-        </View>
-    )
-}
+            if(dataValue != null && dataValue.length > 0)
+            {
+                if(changePosition.start > 0 || changePosition.end > 0)
+                {
+                    if(changePosition.start == changePosition.end)
+                        changePosition.start -= 1
+    
+                    changePosition.end = changePosition.end - changePosition.start
+                    
+                    if(changePosition.end <= 0)
+                        changePosition.end = 1
+    
+                    dataValue.splice(changePosition.start, changePosition.end)
+                    
+                    setValue(dataValue.join(''))
+                }
+            }
+        }
+    }
 
-function ButtonExpecialRed(props)
-{
-    return (
-        <ButtonText style={[styles.buttonC, props.style]} content={props.content} />
-    )
-}
+    const finish = () =>
+    {
+        console.log(eval(value))
+    }
 
-function ButtonExpecialGreen(props)
-{
-    return (
-        <ButtonText style={[styles.buttonsExpecialGreen, props.style]} content={props.content} />
-    )
-}
+    useEffect(removeValue, [actRemoveValue])
 
-function ButtonNumber(props)
-{
-    return (
-        <ButtonText style={[styles.buttonNumber, props.style]} content={props.content} />
-    )
-}
-
-function ButtonFinish(props)
-{
-    return (
-        <ButtonText style={props.style} styleView={styles.buttonFinishEqual} content={props.content} />
-    )
-}
-
-export default function Keyboard()
-{
     return (
         <View style={styles.aViewNumberButtons}>
             <View style={styles.aColumnsNumberButtons}>
                 <View style={styles.aLinesNumberButtons}>
-                    <ButtonExpecialRed content="C" />
-                    <ButtonExpecialGreen content="( )" style={{fontSize: 20}} />
-                    <ButtonExpecialGreen content="%" />
-                    <ButtonExpecialGreen content="÷" style={{fontSize: 42}} />
+                    <ButtonExpecialRed content="C" onPress={removeValue} />
+                    <ButtonExpecialGreen content="( )" onPress={() => addValue("()")} style={{fontSize: 20}} />
+                    <ButtonExpecialGreen content="%" onPress={() => addValue("%")} />
+                    <ButtonExpecialGreen content="÷" onPress={() => addValue("/")} style={{fontSize: 42}} />
                 </View>
                 <View style={styles.aLinesNumberButtons}>
-                    <ButtonNumber content="75" />
-                    <ButtonNumber content="8" />
-                    <ButtonNumber content="9" />
-                    <ButtonExpecialGreen content="+" style={{fontSize: 44, transform: [{rotate: "45deg"}]}} />
+                    <ButtonNumber content="7" onPress={() => addValue(7)} />
+                    <ButtonNumber content="8" onPress={() => addValue(8)} />
+                    <ButtonNumber content="9" onPress={() => addValue(9)} />
+                    <ButtonExpecialGreen content="+" onPress={() => addValue(".")} style={{fontSize: 44, transform: [{rotate: "45deg"}]}} />
                 </View>
                 <View style={styles.aLinesNumberButtons}>
-                    <ButtonNumber content="4" />
-                    <ButtonNumber content="5" />
-                    <ButtonNumber content="6" />
-                    <ButtonExpecialGreen content="‒" style={{fontSize: 46}} />
+                    <ButtonNumber content="4" onPress={() => addValue(4)} />
+                    <ButtonNumber content="5" onPress={() => addValue(5)} />
+                    <ButtonNumber content="6" onPress={() => addValue(6)} />
+                    <ButtonExpecialGreen content="‒" onPress={() => addValue("-")} style={{fontSize: 46}} />
                 </View>
                 <View style={styles.aLinesNumberButtons}>
-                    <ButtonNumber content="1" />
-                    <ButtonNumber content="2" />
-                    <ButtonNumber content="3" />
-                    <ButtonExpecialGreen content="+" style={{fontSize: 40}} />
+                    <ButtonNumber content="1" onPress={() => addValue(1)} />
+                    <ButtonNumber content="2" onPress={() => addValue(2)} />
+                    <ButtonNumber content="3" onPress={() => addValue(3)} />
+                    <ButtonExpecialGreen content="+" onPress={() => addValue("+")} style={{fontSize: 40}} />
                 </View>
                 <View style={styles.aLinesNumberButtons}>
-                    <ButtonText content="+/‒" />
-                    <ButtonNumber content="0" />
-                    <ButtonText content="," />
-                    <ButtonFinish content="=" style={{fontSize: 50}} />
+                    <ButtonText content="+/‒" onPress={() => addValue("(-")} />
+                    <ButtonNumber content="0" onPress={() => addValue(0)} />
+                    <ButtonText content="," onPress={() => addValue(",")} />
+                    <ButtonFinish content="=" onPress={finish} style={{fontSize: 50}} />
                 </View>
             </View>
         </View>
