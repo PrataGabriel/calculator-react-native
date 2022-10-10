@@ -6,7 +6,9 @@
     "start": "npx expo start",
     "android": "npx expo start --android",
     "ios": "npx expo start --ios",
-    "web": "npx expo start --web"
+    "web": "npx expo start --web",
+    "build-android-preview": "eas build -p android --profile preview",
+    "build-ios-preview": "eas build -p ios --profile preview"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",

@@ -8,7 +8,7 @@ export default function App()
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <StatusBar />
+            <StatusBar backgroundColor="#010101" />
             <Home />
         </SafeAreaView>
     )

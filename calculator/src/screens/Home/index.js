@@ -80,7 +80,7 @@ export default function Home()
                 </View>
                 <View style={styles.aValueFinish}>
                     <Text style={styles.valueFinishText}>
-                        {(isNaN(value) && !isNaN(value.charAt(value.length - 1))) ? eval(value) : 'no-Ok'}
+                        {(isNaN(value) && !isNaN(value.charAt(value.length - 1))) ? eval(value) : ''}
                     </Text>
                 </View>
                 <View style={styles.aMenuTools}>
