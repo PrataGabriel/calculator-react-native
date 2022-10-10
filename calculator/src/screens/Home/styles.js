@@ -56,11 +56,24 @@ const styles = StyleSheet.create(
     }],
     textInput:
     {
-        fontSize: 32,
+        fontSize: 34,
         textAlign: "right",
         color: "#fff",
         paddingVertical: 60,
-        paddingHorizontal: 18
+        paddingHorizontal: 18,
+        fontFamily: "Heebo-Light"
+    },
+    aValueFinish:
+    {
+        alignItems: "flex-end",
+        paddingHorizontal: 18,
+        paddingVertical: 16
+    },
+    valueFinishText:
+    {
+        color: "#676767",
+        fontSize: 22,
+        fontFamily: "Heebo-Light"
     }
 })
 

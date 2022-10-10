@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { View, TextInput, Keyboard, AppState, Pressable } from 'react-native'
+import { View, Text, TextInput, Keyboard, AppState, Pressable } from 'react-native'
 import * as SplashScreen from "expo-splash-screen"
 import { useFonts } from 'expo-font'
 import { MaterialCommunityIcons, FontAwesome5, Feather, MaterialIcons } from '@expo/vector-icons'
@@ -20,6 +20,8 @@ export default function Home()
         'Heebo-Light': require("../../../assets/fonts/Heebo/static/Heebo-Light.ttf"),
         'Heebo-Regular': require("../../../assets/fonts/Heebo/static/Heebo-Regular.ttf")
     })
+
+    useEffect(() => console.log(parseInt(value)), [value])
 
     useEffect(() =>
     {
@@ -75,6 +77,11 @@ export default function Home()
                         ref={textInputRef}
                         onSelectionChange={(e) => setChangePosition(e.nativeEvent.selection)}
                     />
+                </View>
+                <View style={styles.aValueFinish}>
+                    <Text style={styles.valueFinishText}>
+                        {(isNaN(value) && !isNaN(value.charAt(value.length - 1))) ? eval(value) : 'no-Ok'}
+                    </Text>
                 </View>
                 <View style={styles.aMenuTools}>
                     <View style={styles.aItemsLeft}>

@@ -58,6 +58,11 @@ export default function KeyboardComponent({ stateValue: {value, setValue}, chang
         }
     }
 
+    const clearValue = () =>
+    {
+        setValue('')
+    }
+
     const finish = () =>
     {
         console.log(eval(value))
@@ -69,7 +74,7 @@ export default function KeyboardComponent({ stateValue: {value, setValue}, chang
         <View style={styles.aViewNumberButtons}>
             <View style={styles.aColumnsNumberButtons}>
                 <View style={styles.aLinesNumberButtons}>
-                    <ButtonExpecialRed content="C" onPress={removeValue} />
+                    <ButtonExpecialRed content="C" onPress={clearValue} />
                     <ButtonExpecialGreen content="( )" onPress={() => addValue("()")} style={{fontSize: 20}} />
                     <ButtonExpecialGreen content="%" onPress={() => addValue("%")} />
                     <ButtonExpecialGreen content="÷" onPress={() => addValue("/")} style={{fontSize: 42}} />
@@ -78,7 +83,7 @@ export default function KeyboardComponent({ stateValue: {value, setValue}, chang
                     <ButtonNumber content="7" onPress={() => addValue(7)} />
                     <ButtonNumber content="8" onPress={() => addValue(8)} />
                     <ButtonNumber content="9" onPress={() => addValue(9)} />
-                    <ButtonExpecialGreen content="+" onPress={() => addValue(".")} style={{fontSize: 44, transform: [{rotate: "45deg"}]}} />
+                    <ButtonExpecialGreen content="+" onPress={() => addValue("*")} style={{fontSize: 44, transform: [{rotate: "45deg"}]}} />
                 </View>
                 <View style={styles.aLinesNumberButtons}>
                     <ButtonNumber content="4" onPress={() => addValue(4)} />
